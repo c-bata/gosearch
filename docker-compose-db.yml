@@ -1,0 +1,10 @@
+mongo:
+  image: mongo
+  container_name: search_mongo
+  ports:
+   - "27017:27017"
+redis:
+  image: redis
+  container_name: search_redis
+  ports:
+   - "6379:6379"
