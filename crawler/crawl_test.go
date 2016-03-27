@@ -29,8 +29,15 @@ func TestCrawl(t *testing.T) {
 	tocrawl := make(chan URL)
 	go crawl(ts.URL, 1, msg, tocrawl)
 
-	assert.Equal(ts.URL+" is crawled.", <-msg)
-	url := <-tocrawl
-	assert.Equal("http://example.com/", url.url)
-	assert.Equal(0, url.depth)
+	for i := 0; i < 2; i++ {
+		select{
+		case s := <-msg:
+			assert.Equal(ts.URL + " is crawled.", s)
+		case u := <-tocrawl:
+			assert.Equal("http://example.com/", u.url)
+			assert.Equal(0, u.depth)
+		default:
+			t.Error("Doesn't receive channel.")
+		}
+	}
 }
