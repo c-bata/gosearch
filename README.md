@@ -21,5 +21,5 @@ docker-compose -f docker-compose-db.yml run
 **Option(Throw fixture data)**
 
 ```
-./scripts/fixtures.sh
+./fixtures/fixtures.sh
 ```
