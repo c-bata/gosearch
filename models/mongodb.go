@@ -5,12 +5,15 @@ import (
 	"log"
 )
 
-func GetSession(host string) *mgo.Session {
-	log.Println("connect to MongoDB: " + host)
-	Session, err := mgo.Dial(host)
-	if err != nil {
-		panic(err)
-	}
-	return Session
+var Session *mgo.Session
+func Dialdb() error {
+	var err error
+	log.Println("connect to MongoDB: localhost")
+	Session, err = mgo.Dial("localhost")
+	return err
 }
 
+func Closedb() {
+	Session.Close()
+	log.Println("Close db connection.")
+}

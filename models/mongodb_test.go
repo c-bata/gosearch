@@ -8,10 +8,12 @@ import (
 func TestDB(t *testing.T) {
 	assert := assert.New(t)
 
-	session := GetSession("localhost")
-	assert.NotNil(session)
-	assert.Nil(session.Ping())
+	if err := Dialdb(); err != nil {
+		t.Error("Failed to connect MongoDB")
+	}
+	assert.NotNil(Session)
+	assert.Nil(Session.Ping())
 
-	session.Close()
-	assert.Panics(func () {session.Ping()}, "Session already closed")
+	Session.Close()
+	assert.Panics(func () {Session.Ping()}, "Session already closed")
 }
