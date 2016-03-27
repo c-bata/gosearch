@@ -36,8 +36,6 @@ func TestCrawl(t *testing.T) {
 		case u := <-tocrawl:
 			assert.Equal("http://example.com/", u.url)
 			assert.Equal(0, u.depth)
-		default:
-			t.Error("Doesn't receive channel.")
 		}
 	}
 }
