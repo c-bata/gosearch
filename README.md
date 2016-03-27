@@ -17,3 +17,9 @@ VBoxManage controlvm "default" natpf1 "redis,tcp,127.0.0.1,6379,,6379"
 ```
 docker-compose -f docker-compose-db.yml run
 ```
+
+**Option(Throw fixture data)**
+
+```
+./scripts/fixtures.sh
+```
