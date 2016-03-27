@@ -30,9 +30,9 @@ func TestCrawl(t *testing.T) {
 	go crawl(ts.URL, 1, msg, tocrawl)
 
 	for i := 0; i < 2; i++ {
-		select{
+		select {
 		case s := <-msg:
-			assert.Equal(ts.URL + " is crawled.", s)
+			assert.Equal(ts.URL+" is crawled.", s)
 		case u := <-tocrawl:
 			assert.Equal("http://example.com/", u.url)
 			assert.Equal(0, u.depth)
