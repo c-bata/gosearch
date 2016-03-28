@@ -15,17 +15,6 @@ func getIndexCollection() *mgo.Collection {
 	return Session.DB("gosearch").C("index")
 }
 
-func addPageToIndex(body string, url string) {
-	t := tokenizer.New()
-	tokens := t.Tokenize(body)
-	for _, token := range tokens {
-		if token.Class == tokenizer.DUMMY {
-			continue
-		}
-		addToIndex(token.Surface, url)
-	}
-}
-
 func contains(a string, list []string) bool {
 	for _, b := range list {
 		if b == a {
@@ -45,4 +34,15 @@ func addToIndex(keyword string, url string) (err error) {
 		err = c.Update(bson.M{"keyword": keyword}, bson.M{"$push": bson.M{"url": url}})
 	}
 	return
+}
+
+func AddPageToIndex(body string, url string) {
+	t := tokenizer.New()
+	tokens := t.Tokenize(body)
+	for _, token := range tokens {
+		if token.Class == tokenizer.DUMMY {
+			continue
+		}
+		addToIndex(token.Surface, url)
+	}
 }
