@@ -1,23 +1,25 @@
 package models
 
 import (
+	"github.com/c-bata/gosearch/env"
 	"github.com/stretchr/testify/assert"
 	"gopkg.in/mgo.v2/bson"
 	"testing"
 )
 
-func dropCollection(assert *assert.Assertions, db string, col string) {
-	c := Session.DB("gosearch").C("index")
+func dropCollection(dbname string) {
+	c := Session.DB(dbname).C("index")
 	c.DropCollection()
 }
 
 func TestAddToIndex(t *testing.T) {
 	assert := assert.New(t)
-	err := Dialdb()
+	env.Init()
+	err := Dialdb(env.GetDBHost())
 	assert.Nil(err)
 	defer Session.Close()
-	dropCollection(assert, "gosearch", "index")
-	c := Session.DB("gosearch").C("index")
+	dropCollection(env.GetDBName())
+	c := getIndexCollection(env.GetDBName())
 
 	// When add a new word
 	addToIndex("keyword1", "http://example.com")
@@ -45,11 +47,12 @@ func TestAddToIndex(t *testing.T) {
 
 func TestAddPageToIndex(t *testing.T) {
 	assert := assert.New(t)
-	err := Dialdb()
+	env.Init()
+	err := Dialdb(env.GetDBHost())
 	assert.Nil(err)
 	defer Session.Close()
-	dropCollection(assert, "gosearch", "index")
-	c := Session.DB("gosearch").C("index")
+	dropCollection(env.GetDBName())
+	c := getIndexCollection(env.GetDBName())
 	AddPageToIndex("検索エンジン", "http://example.com")
 
 	var results []Index

@@ -7,10 +7,10 @@ import (
 
 var Session *mgo.Session
 
-func Dialdb() error {
+func Dialdb(host string) error {
 	var err error
 	log.Println("connect to MongoDB: localhost")
-	Session, err = mgo.Dial("localhost")
+	Session, err = mgo.Dial(host)
 	return err
 }
 

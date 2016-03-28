@@ -4,6 +4,7 @@ import (
 	"github.com/ikawaha/kagome/tokenizer"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
+	"github.com/c-bata/gosearch/env"
 )
 
 type Index struct {
@@ -11,8 +12,8 @@ type Index struct {
 	Url     []string `bson:"url"`
 }
 
-func getIndexCollection() *mgo.Collection {
-	return Session.DB("gosearch").C("index")
+func getIndexCollection(db string) *mgo.Collection {
+	return Session.DB(db).C("index")
 }
 
 func contains(a string, list []string) bool {
@@ -25,7 +26,7 @@ func contains(a string, list []string) bool {
 }
 
 func addToIndex(keyword string, url string) (err error) {
-	c := getIndexCollection()
+	c := getIndexCollection(env.GetDBName())
 
 	result := &Index{}
 	if err := c.Find(bson.M{"keyword": keyword}).One(&result); err != nil {
