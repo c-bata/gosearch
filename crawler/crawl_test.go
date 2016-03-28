@@ -2,6 +2,7 @@ package crawler
 
 import (
 	"fmt"
+	"github.com/c-bata/gosearch/models"
 	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/http/httptest"
@@ -22,6 +23,9 @@ func DummyCrawledHandler(w http.ResponseWriter, r *http.Request) {
 
 func TestCrawl(t *testing.T) {
 	assert := assert.New(t)
+	err := models.Dialdb()
+	assert.Nil(err)
+
 	ts := httptest.NewServer(http.HandlerFunc(DummyCrawledHandler))
 	defer ts.Close()
 

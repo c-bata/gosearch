@@ -1,6 +1,7 @@
 package crawler
 
 import (
+	"github.com/c-bata/gosearch/models"
 	"io/ioutil"
 	"net/http"
 	"regexp"
@@ -32,6 +33,9 @@ func crawl(url string, depth int, msg chan string, tocrawl chan URL) {
 	if err != nil {
 		return
 	}
+	// TODO: Add add page to index test
+	// TODO: Remove tags
+	models.AddPageToIndex(string(body), url)
 
 	for _, url := range getAllLinks(string(body)) {
 		tocrawl <- URL{url: url, depth: depth - 1}
