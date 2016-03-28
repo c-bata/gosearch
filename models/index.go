@@ -2,16 +2,16 @@ package models
 
 import (
 	"github.com/ikawaha/kagome/tokenizer"
-	"gopkg.in/mgo.v2/bson"
 	"gopkg.in/mgo.v2"
+	"gopkg.in/mgo.v2/bson"
 )
 
 type Index struct {
-	Keyword string        `bson:"keyword"`
-	Url     []string      `bson:"url"`
+	Keyword string   `bson:"keyword"`
+	Url     []string `bson:"url"`
 }
 
-func getIndexCollection() (*mgo.Collection) {
+func getIndexCollection() *mgo.Collection {
 	return Session.DB("gosearch").C("index")
 }
 

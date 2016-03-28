@@ -6,6 +6,7 @@ import (
 )
 
 var Session *mgo.Session
+
 func Dialdb() error {
 	var err error
 	log.Println("connect to MongoDB: localhost")

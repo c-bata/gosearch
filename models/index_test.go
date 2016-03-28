@@ -1,12 +1,12 @@
 package models
 
 import (
-	"testing"
 	"github.com/stretchr/testify/assert"
 	"gopkg.in/mgo.v2/bson"
+	"testing"
 )
 
-func dropCollection (assert *assert.Assertions, db string, col string) {
+func dropCollection(assert *assert.Assertions, db string, col string) {
 	c := Session.DB("gosearch").C("index")
 	c.DropCollection()
 }
