@@ -19,7 +19,7 @@ func TestAddToIndex(t *testing.T) {
 	assert.Nil(err)
 	defer Session.Close()
 	dropCollection(env.GetDBName())
-	c := getIndexCollection(env.GetDBName())
+	c := GetIndexCollection(env.GetDBName())
 
 	// When add a new word
 	addToIndex("keyword1", "http://example.com")
@@ -52,7 +52,7 @@ func TestAddPageToIndex(t *testing.T) {
 	assert.Nil(err)
 	defer Session.Close()
 	dropCollection(env.GetDBName())
-	c := getIndexCollection(env.GetDBName())
+	c := GetIndexCollection(env.GetDBName())
 	AddPageToIndex("検索エンジン", "http://example.com")
 
 	var results []Index

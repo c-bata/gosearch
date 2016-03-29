@@ -12,7 +12,7 @@ type Index struct {
 	Url     []string `bson:"url"`
 }
 
-func getIndexCollection(db string) *mgo.Collection {
+func GetIndexCollection(db string) *mgo.Collection {
 	return Session.DB(db).C("index")
 }
 
@@ -26,7 +26,7 @@ func contains(a string, list []string) bool {
 }
 
 func addToIndex(keyword string, url string) (err error) {
-	c := getIndexCollection(env.GetDBName())
+	c := GetIndexCollection(env.GetDBName())
 
 	result := &Index{}
 	if err := c.Find(bson.M{"keyword": keyword}).One(&result); err != nil {
