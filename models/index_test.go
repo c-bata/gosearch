@@ -71,7 +71,7 @@ func TestSearch(t *testing.T) {
 
 	err = c.Insert(&Index{
 		Keyword: "word1",
-		Url: []string{"http://example.com/"},
+		Url:     []string{"http://example.com/"},
 	})
 	var results []string = Search("word1")
 	assert.Equal(1, len(results))
@@ -79,7 +79,7 @@ func TestSearch(t *testing.T) {
 
 	err = c.Insert(&Index{
 		Keyword: "word2",
-		Url: []string{"http://example.com/", "http://hoge.example.com/"},
+		Url:     []string{"http://example.com/", "http://hoge.example.com/"},
 	})
 	results = Search("word2")
 	assert.Equal(2, len(results))

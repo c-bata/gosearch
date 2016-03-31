@@ -2,12 +2,12 @@ package crawler
 
 import (
 	"fmt"
+	"github.com/c-bata/gosearch/env"
 	"github.com/c-bata/gosearch/models"
 	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/http/httptest"
 	"testing"
-	"github.com/c-bata/gosearch/env"
 )
 
 func TestGetAllLinks(t *testing.T) {
@@ -22,25 +22,45 @@ func DummyCrawledHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "hogehoge<a href=\"http://example.com/\">fugafuga")
 }
 
-func TestCrawl(t *testing.T) {
+func TestFetch(t *testing.T) {
 	assert := assert.New(t)
+	env.Init()
 	err := models.Dialdb(env.GetDBHost())
 	assert.Nil(err)
+	defer models.Session.Close()
 
 	ts := httptest.NewServer(http.HandlerFunc(DummyCrawledHandler))
 	defer ts.Close()
 
-	msg := make(chan string)
+	resp := make(chan CrawlResponse)
 	tocrawl := make(chan URL)
-	go crawl(ts.URL, 1, msg, tocrawl)
+	go fetch(ts.URL, 1, resp, tocrawl)
 
-	for i := 0; i < 2; i++ {
-		select {
-		case s := <-msg:
-			assert.Equal(ts.URL+" is crawled.", s)
-		case u := <-tocrawl:
-			assert.Equal("http://example.com/", u.url)
-			assert.Equal(0, u.depth)
-		}
-	}
+	s := <-resp
+	assert.Equal(ts.URL, s.Url)
+	assert.Equal(`hogehoge<a href="http://example.com/">fugafuga`, s.Body)
+	assert.Equal(200, s.StatusCode)
+
+	tc := <-tocrawl
+	assert.Equal(tc.Url, "http://example.com/")
+	assert.Equal(tc.Depth, 0)
+}
+
+func TestCrawl(t *testing.T) {
+	assert := assert.New(t)
+	env.Init()
+	err := models.Dialdb(env.GetDBHost())
+	assert.Nil(err)
+	defer models.Session.Close()
+
+	ts := httptest.NewServer(http.HandlerFunc(DummyCrawledHandler))
+	defer ts.Close()
+
+	resp := make(chan CrawlResponse)
+	go Crawl(ts.URL, 1, resp)
+
+	s := <-resp
+	assert.Equal(ts.URL, s.Url)
+	assert.Equal(`hogehoge<a href="http://example.com/">fugafuga`, s.Body)
+	assert.Equal(200, s.StatusCode)
 }

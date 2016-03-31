@@ -1,15 +1,20 @@
 package crawler
 
 import (
-	"github.com/c-bata/gosearch/models"
 	"io/ioutil"
 	"net/http"
 	"regexp"
 )
 
 type URL struct {
-	url   string
-	depth int
+	Url   string
+	Depth int
+}
+
+type CrawlResponse struct {
+	StatusCode int
+	Url        string
+	Body       string
 }
 
 func getAllLinks(body string) (urls []string) {
@@ -18,43 +23,47 @@ func getAllLinks(body string) (urls []string) {
 	return urls
 }
 
-func crawl(url string, depth int, msg chan string, tocrawl chan URL) {
+func fetch(url string, depth int, resp chan CrawlResponse, tocrawl chan URL) {
 	if depth <= 0 {
 		return
 	}
-	defer func() { msg <- url + " is crawled." }()
 
-	resp, err := http.Get(url)
+	r, err := http.Get(url)
 	if err != nil {
 		return
 	}
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	defer r.Body.Close()
+	bytesBody, err := ioutil.ReadAll(r.Body)
+	body := string(bytesBody)
 	if err != nil {
 		return
 	}
-	// TODO: Add add page to index test
-	// TODO: Remove tags
-	models.AddPageToIndex(string(body), url)
+	func() {
+		resp <- CrawlResponse{
+			StatusCode: r.StatusCode,
+			Url:        url,
+			Body:       body,
+		}
+	}()
 
-	for _, url := range getAllLinks(string(body)) {
-		tocrawl <- URL{url: url, depth: depth - 1}
+	for _, url := range getAllLinks(body) {
+		tocrawl <- URL{Url: url, Depth: depth - 1}
 	}
 	return
 }
 
-func Crawl(seed string, depth int, msg chan string) {
+func Crawl(seed string, depth int, resp chan CrawlResponse) {
 	tocrawl := make(chan URL)
-	crawled := make(map[string]bool)
+	crawled := make(map[string]bool) // TODO: save hashed value
 
 	crawled[seed] = true
-	go crawl(seed, depth, msg, tocrawl)
+	go fetch(seed, depth, resp, tocrawl)
 
 	for u := range tocrawl {
-		if !crawled[u.url] {
-			crawled[u.url] = true
-			go crawl(u.url, u.depth, msg, tocrawl)
+		if !crawled[u.Url] {
+			crawled[u.Url] = true
+			go fetch(u.Url, u.Depth, resp, tocrawl)
 		}
 	}
-	close(msg)
+	close(resp)
 }

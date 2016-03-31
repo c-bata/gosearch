@@ -1,10 +1,10 @@
 package models
 
 import (
+	"github.com/c-bata/gosearch/env"
 	"github.com/ikawaha/kagome/tokenizer"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
-	"github.com/c-bata/gosearch/env"
 )
 
 type Index struct {
