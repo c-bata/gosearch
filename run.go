@@ -7,7 +7,6 @@ import (
 	"github.com/c-bata/gosearch/models"
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"github.com/c-bata/gosearch/search"
 )
 
 func main() {
@@ -30,7 +29,7 @@ func main() {
 	router := gin.Default()
 	router.GET("/", func(c *gin.Context) {
 		keyword := c.Query("keyword")
-		urls := search.Search(keyword)
+		urls := models.Search(keyword)
 		c.JSON(http.StatusOK, gin.H{
 			"results": urls,
 		})

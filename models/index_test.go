@@ -59,3 +59,28 @@ func TestAddPageToIndex(t *testing.T) {
 	err = c.Find(nil).All(&results)
 	assert.Equal(len([]string{"検索", "エンジン"}), len(results))
 }
+
+func TestSearch(t *testing.T) {
+	assert := assert.New(t)
+	env.Init()
+	err := Dialdb(env.GetDBHost())
+	assert.Nil(err)
+	defer Session.Close()
+	dropCollection(env.GetDBName())
+	c := GetIndexCollection(env.GetDBName())
+
+	err = c.Insert(&Index{
+		Keyword: "word1",
+		Url: []string{"http://example.com/"},
+	})
+	var results []string = Search("word1")
+	assert.Equal(1, len(results))
+	assert.Equal("http://example.com/", results[0])
+
+	err = c.Insert(&Index{
+		Keyword: "word2",
+		Url: []string{"http://example.com/", "http://hoge.example.com/"},
+	})
+	results = Search("word2")
+	assert.Equal(2, len(results))
+}

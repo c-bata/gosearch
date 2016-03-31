@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
+	"github.com/c-bata/gosearch/env"
 )
 
 func TestGetAllLinks(t *testing.T) {
@@ -23,7 +24,7 @@ func DummyCrawledHandler(w http.ResponseWriter, r *http.Request) {
 
 func TestCrawl(t *testing.T) {
 	assert := assert.New(t)
-	err := models.Dialdb()
+	err := models.Dialdb(env.GetDBHost())
 	assert.Nil(err)
 
 	ts := httptest.NewServer(http.HandlerFunc(DummyCrawledHandler))

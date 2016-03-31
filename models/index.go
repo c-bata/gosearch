@@ -47,3 +47,10 @@ func AddPageToIndex(body string, url string) {
 		addToIndex(token.Surface, url)
 	}
 }
+
+func Search(keyword string) (urls []string) {
+	c := GetIndexCollection(env.GetDBName())
+	var result Index
+	c.Find(bson.M{"keyword": keyword}).One(&result)
+	return result.Url
+}
