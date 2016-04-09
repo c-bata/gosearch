@@ -23,12 +23,11 @@ func main() {
 		go crawler.Crawl(seed, 4, resp)
 
 		for r := range resp {
-			// TODO: Add add page to index test
-			// TODO: Remove tags
 			// TODO: Skip binary and static files(js, css, img)
 			//       Check Content-Type (json, html, xml, etc)
 			log.Printf("%d : %s", r.StatusCode, r.Url)
-			models.AddPageToIndex(string(r.Body), r.Url)
+			untaggedBody := crawler.RemoveTags(string(r.Body))
+			models.AddPageToIndex(untaggedBody, r.Url)
 		}
 	} ()
 

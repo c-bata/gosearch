@@ -73,3 +73,9 @@ func Crawl(seed string, depth int, resp chan CrawlResponse) {
 	}
 	close(resp)
 }
+
+func RemoveTags(body string) string {
+	r := regexp.MustCompile(`<.*?>`)
+	unTaggedBody := r.ReplaceAllString(body, "")
+	return unTaggedBody
+}

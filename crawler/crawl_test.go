@@ -12,7 +12,7 @@ import (
 
 func TestGetAllLinks(t *testing.T) {
 	assert := assert.New(t)
-	var input string = "hoge<a href=\"http://example.com/\">link title</a>hoge\n<a href=\"http://hoge.example.com/\">link title</a>"
+	input := `hoge<a href="http://example.com/">link title</a>hoge\n<a href="http://hoge.example.com/">link title</a>`
 	urls := getAllLinks(input)
 	assert.Equal("http://example.com/", urls[0])
 	assert.Equal("http://hoge.example.com/", urls[1])
@@ -63,4 +63,13 @@ func TestCrawl(t *testing.T) {
 	assert.Equal(ts.URL, s.Url)
 	assert.Equal(`hogehoge<a href="http://example.com/">fugafuga`, s.Body)
 	assert.Equal(200, s.StatusCode)
+}
+
+func TestRemoveTags(t *testing.T) {
+	assert := assert.New(t)
+
+	input := `<ul><li>item</li></ul>`
+	actual := RemoveTags(input)
+	expected := "item"
+	assert.Equal(expected, actual)
 }
