@@ -1,0 +1,84 @@
+{
+	"ImportPath": "github.com/c-bata/gosearch",
+	"GoVersion": "go1.6",
+	"GodepVersion": "v60",
+	"Deps": [
+		{
+			"ImportPath": "github.com/gin-gonic/gin",
+			"Comment": "v1.0rc1-219-g3d002e3",
+			"Rev": "3d002e382355cafc15d706b92899b1961d5b79e9"
+		},
+		{
+			"ImportPath": "github.com/gin-gonic/gin/binding",
+			"Comment": "v1.0rc1-219-g3d002e3",
+			"Rev": "3d002e382355cafc15d706b92899b1961d5b79e9"
+		},
+		{
+			"ImportPath": "github.com/gin-gonic/gin/render",
+			"Comment": "v1.0rc1-219-g3d002e3",
+			"Rev": "3d002e382355cafc15d706b92899b1961d5b79e9"
+		},
+		{
+			"ImportPath": "github.com/golang/protobuf/proto",
+			"Rev": "3c84672111d91bb5ac31719e112f9f7126a0e26e"
+		},
+		{
+			"ImportPath": "github.com/ikawaha/kagome/internal/da",
+			"Comment": "v1.5.0",
+			"Rev": "053bff1aa00bb6d786a8bb9c49dc88ee930aa764"
+		},
+		{
+			"ImportPath": "github.com/ikawaha/kagome/internal/dic",
+			"Comment": "v1.5.0",
+			"Rev": "053bff1aa00bb6d786a8bb9c49dc88ee930aa764"
+		},
+		{
+			"ImportPath": "github.com/ikawaha/kagome/internal/dic/data",
+			"Comment": "v1.5.0",
+			"Rev": "053bff1aa00bb6d786a8bb9c49dc88ee930aa764"
+		},
+		{
+			"ImportPath": "github.com/ikawaha/kagome/internal/lattice",
+			"Comment": "v1.5.0",
+			"Rev": "053bff1aa00bb6d786a8bb9c49dc88ee930aa764"
+		},
+		{
+			"ImportPath": "github.com/ikawaha/kagome/tokenizer",
+			"Comment": "v1.5.0",
+			"Rev": "053bff1aa00bb6d786a8bb9c49dc88ee930aa764"
+		},
+		{
+			"ImportPath": "github.com/manucorporat/sse",
+			"Rev": "ee05b128a739a0fb76c7ebd3ae4810c1de808d6d"
+		},
+		{
+			"ImportPath": "golang.org/x/net/context",
+			"Rev": "0899459b4d84739aa2600ba248120318d78f8997"
+		},
+		{
+			"ImportPath": "gopkg.in/go-playground/validator.v8",
+			"Comment": "v8.17",
+			"Rev": "f38559b4893a333e7122cf42155be352c9b5d7c6"
+		},
+		{
+			"ImportPath": "gopkg.in/mgo.v2",
+			"Comment": "r2016.02.04",
+			"Rev": "d90005c5262a3463800497ea5a89aed5fe22c886"
+		},
+		{
+			"ImportPath": "gopkg.in/mgo.v2/bson",
+			"Comment": "r2016.02.04",
+			"Rev": "d90005c5262a3463800497ea5a89aed5fe22c886"
+		},
+		{
+			"ImportPath": "gopkg.in/mgo.v2/internal/sasl",
+			"Comment": "r2016.02.04",
+			"Rev": "d90005c5262a3463800497ea5a89aed5fe22c886"
+		},
+		{
+			"ImportPath": "gopkg.in/mgo.v2/internal/scram",
+			"Comment": "r2016.02.04",
+			"Rev": "d90005c5262a3463800497ea5a89aed5fe22c886"
+		}
+	]
+}
