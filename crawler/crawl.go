@@ -4,6 +4,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"regexp"
+	"strings"
 )
 
 type URL struct {
@@ -31,6 +32,11 @@ func fetch(url string, depth int, resp chan CrawlResponse, tocrawl chan URL) {
 	r, err := http.Get(url)
 	if err != nil {
 		return
+	} else {
+		t := r.Header.Get("Content-Type")
+		if t == "text/css" || t == "text/javascript" || strings.HasPrefix(t, "image") {
+			return
+		}
 	}
 	defer r.Body.Close()
 	bytesBody, err := ioutil.ReadAll(r.Body)
