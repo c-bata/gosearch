@@ -34,7 +34,10 @@ func fetch(url string, depth int, resp chan CrawlResponse, tocrawl chan URL) {
 		return
 	} else {
 		t := r.Header.Get("Content-Type")
-		if t == "text/css" || t == "text/javascript" || strings.HasPrefix(t, "image") {
+		if strings.HasSuffix(url, ".css") || strings.HasSuffix(url, ".js") {
+			return
+		}
+		if strings.HasPrefix(t, "image") {
 			return
 		}
 	}
