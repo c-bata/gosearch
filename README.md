@@ -1,5 +1,7 @@
 # GoSearch
 
+[![Build Status](https://travis-ci.org/c-bata/gosearch.svg?branch=master)](https://travis-ci.org/c-bata/gosearch)
+
 The search engine in golang.
 
 ## Flow
