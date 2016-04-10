@@ -21,9 +21,5 @@ install:
   - godep version
   - godep restore
 
-before_script:
-  - docker build -t c-bata/gosearch .
-  - docker run -it --rm --link mongo
-
 script:
   - go test $(go list ./... | grep -v vendor)
