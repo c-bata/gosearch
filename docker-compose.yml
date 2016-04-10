@@ -1,0 +1,22 @@
+mongo:
+  image: mongo
+  container_name: search_mongo
+  ports:
+    - "27017:27017"
+redis:
+  image: redis
+  container_name: search_redis
+  ports:
+    - "6379:6379"
+app:
+  build: .
+  container_name: search_app
+  ports:
+    - "8080:8080"
+  volumes:
+    - $GOPATH:/$GOPATH
+  environment:
+    - GOSEARCH_ENV=develop
+  links:
+    - mongo
+    - redis
