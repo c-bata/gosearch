@@ -1,0 +1,26 @@
+language: go
+
+go:
+  - 1.6
+
+env:
+  global:
+    - GOSEARCH_ENV=test
+
+services:
+  - docker
+
+before_install:
+  - curl -L https://github.com/docker/compose/releases/download/1.5.1/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
+  - docker-compose -f docker-compose-db.yml up -d
+
+install:
+  - go get github.com/tools/godep
+  - godep version
+  - godep restore
+  - go get github.com/stretchr/testify
+
+script:
+  - go test $(go list ./... | grep -v vendor)
